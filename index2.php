@@ -27,7 +27,11 @@
 <?php
 # scraping books to scrape: https://books.toscrape.com/
 require 'vendor/autoload.php';
-$httpClient = \Symfony\Component\Panther\Client::createChromeClient();
+$httpClient = \Symfony\Component\Panther\Client::createChromeClient(null, [
+    '--headless',
+    '--disable-gpu',
+    '--remote-debugging-port=9222',
+]);
 // for a Firefox client use the line below instead
 //$httpClient = \Symfony\Component\Panther\Client::createFirefoxClient();
 // get response
@@ -92,3 +96,5 @@ $key = 0;
     }   
 ?>
 </table>
+</body>
+</html>
