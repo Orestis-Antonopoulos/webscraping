@@ -110,35 +110,81 @@ echo "
     <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
 </tr>";
 }
+echo "</table></div>";
 ?>
-    </table>
-</div>
+    
 
-<div id="table2" class="table-container table2"><span>t2</span></div>
-<div id="table3" class="table-container table3"><span>t3</span></div>
+
+<div id="table2" class="table-container table2">
+<table><tr><th>Title</th><th>Card</th><th>Benchy/Price</th><th>link</th></tr>
+<?php
+$systemsXml = simplexml_load_file('systems.xml'); // Load XML from a file
+foreach ($systemsXml->gpu as $gpu) { // Loop through each 'gpu' element in the XML
+    $title = htmlspecialchars_decode((string) $gpu->title);
+    $BPeu = htmlspecialchars_decode((string) $gpu->BPeu);
+    $price = htmlspecialchars_decode((string) $gpu->price);
+    $link = htmlspecialchars_decode((string) $gpu->link);
+    $benchmark = htmlspecialchars_decode((string) $gpu->benchmark);
+    $cpuModel = htmlspecialchars_decode((string) $gpu->cpuModel);
+    $description = htmlspecialchars_decode((string) $gpu->description);
+
+echo "
+<tr>
+    <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
+    <td style=\"text-align: center;\">{$BPeu}                                                           </td>
+    <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
+    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+</tr>";
+}
+echo "</table></div>";
+?>
+
+
+</div>
+<div id="table3" class="table-container table3">
+<table><tr><th>Title</th><th>Card</th><th>Benchy/Price</th><th>link</th></tr>
+<?php
+$systemsXml = simplexml_load_file('cpu.xml'); // Load XML from a file
+foreach ($systemsXml->gpu as $gpu) { // Loop through each 'gpu' element in the XML
+    $title = htmlspecialchars_decode((string) $gpu->title);
+    $BPeu = htmlspecialchars_decode((string) $gpu->BPeu);
+    $price = htmlspecialchars_decode((string) $gpu->price);
+    $link = htmlspecialchars_decode((string) $gpu->link);
+    $benchmark = htmlspecialchars_decode((string) $gpu->benchmark);
+    $cpuModel = htmlspecialchars_decode((string) $gpu->cpuModel);
+    $description = htmlspecialchars_decode((string) $gpu->description);
+
+echo "
+<tr>
+    <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
+    <td style=\"text-align: center;\">{$BPeu}                                                           </td>
+    <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
+    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+</tr>";
+}
+echo "</table></div>";
+?>
 
 
 </body>
 </html>
 
 <script>
-function showTable(showID) {
-    ['table1', 'table2', 'table3'].forEach(id => {
-        const el = document.getElementById(id);
-        const btn = document.querySelector(`input[data-table="${id}"]`);  // Get the button element
-        if (id === showID) {
-            el.style.display = 'block';
-            // Force a reflow to let the browser know that the 'display' has changed
-            void el.offsetWidth; 
-            el.style.opacity = 1;
-            btn.classList.add('active');
-        } else {
-            el.style.opacity = 0;
-            setTimeout(() => el.style.display = 'none', 250);
-            btn.classList.remove('active');
-        }
-    });
-}
-
-
+    function showTable(showID) {
+        ['table1', 'table2', 'table3'].forEach(id => {
+            const el = document.getElementById(id);
+            const btn = document.querySelector(`input[data-table="${id}"]`);  // Get the button element
+            if (id === showID) {
+                el.style.display = 'block';
+                // Force a reflow to let the browser know that the 'display' has changed
+                void el.offsetWidth; 
+                el.style.opacity = 1;
+                btn.classList.add('active');
+            } else {
+                el.style.opacity = 0;
+                setTimeout(() => el.style.display = 'none', 250);
+                btn.classList.remove('active');
+            }
+        });
+    }
 </script>

@@ -1,0 +1,12 @@
+
+Warning: Undefined array key 458 in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 49
+
+Deprecated: str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 50
+
+Warning: Undefined array key 458 in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 57
+<!-- </table> -->
+Warning: Undefined array key 458 in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 49
+
+Deprecated: str_replace(): Passing null to parameter #3 ($subject) of type array|string is deprecated in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 50
+
+Warning: Undefined array key 458 in /Users/orestisantonopoulos/code/scripts/webscraping/GPU-Scrapper.php on line 57

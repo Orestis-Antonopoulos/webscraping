@@ -42,8 +42,6 @@ do {
     if (($maxPages != 0 && $currentPage > $maxPages) || ($stopLoop == True) || ($currentPage > 100)) {break;}
 } while ($stopLoop == false);
 
-// echo "<table><tr> <th>Title</th> <th>BPeu</th> <th>Benchy/Price</th> <th>link</th></tr>"; //initialize table
-
 $key = 0;
 foreach ($titles as $title) {
     $thisPrice = $prices[$key];
@@ -87,17 +85,13 @@ foreach ($titles as $title) {
 
     $key++;
 }
-  
 
 // Sort the array based on BPeu
 usort($collectedData, function ($a, $b) {
     return $b['BPeu'] <=> $a['BPeu'];
 });
-// Create the XML structure
-$xml = new SimpleXMLElement('<root/>');
-// Loop through the data and add it to the XML
-foreach ($collectedData as $data) {
-    // Add to XML
+$xml = new SimpleXMLElement('<root/>'); // Create the XML structure
+foreach ($collectedData as $data) { // Loop through the data and add it to the XML
     $gpu = $xml->addChild('gpu');
     $gpu->addChild('title', htmlspecialchars($data['title']));
     $gpu->addChild('cpuModel',htmlspecialchars($data['cpuModel']));
@@ -105,24 +99,7 @@ foreach ($collectedData as $data) {
     $gpu->addChild('price', htmlspecialchars($data['price']));
     $gpu->addChild('link', htmlspecialchars($data['link']));
     $gpu->addChild('benchmark', htmlspecialchars($data['benchmark']));
-    $gpu->addChild('description', htmlspecialchars($data['description']));
-    
-    // echo "
-    // <tr>
-    //     <td class=\"tooltip\">{$data['title']}
-    //         <span class=\"tooltiptext\">{$data['description']}</span>
-    //     </td>
-    //     <td class=\"tooltip2\">{$data['BPeu']}
-    //         <span class=\"tooltiptext2\">{$data['cpuModel']}</span>
-    //     </td>
-    //     <td>= {$data['benchmark']} / {$data['price']}</td>
-    //     <td><a href=\"{$data['link']}\" target=\"_blank\"> <button>Visit</button></a></td>
-    // </tr>";
+    $gpu->addChild('description', htmlspecialchars($data['description']));   
 }
-
-
-// Save the XML to a file
-$xml->asXML('gpu.xml');
-
+$xml->asXML('gpu.xml'); // Save the XML to a file
 ?>
-<!-- </table> -->
