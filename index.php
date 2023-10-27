@@ -13,8 +13,7 @@
     @keyframes backgroundAnimation {
         0% {background-color: rgb(183, 197, 201);}
         50% {background-color: rgb(209, 217, 255);}
-        100% {background-color: rgb(183, 197, 201);}
-        }
+        100% {background-color: rgb(183, 197, 201);}}
     /* waves animation start */
         .ocean {
         height: 80px; /* change the height of the waves here */
@@ -57,8 +56,8 @@
 
         @keyframes wave {
             0% {transform: translateX(0);}
-            50% {transform: translateX(-16%);}
-            100% {transform: translateX(-33%);}
+            50% {transform: translateX(-360px);}
+            100% {transform: translateX(-720px);}
         }
     /* waves animation end */
         th {color:#700;}
@@ -107,7 +106,7 @@
         .tooltip:hover .tooltiptext {visibility: visible;}
         .tooltip2:hover .tooltiptext2 {visibility: visible;}
 
-        #table1, #table2, #table3 {transition: opacity 0.25s ease-in-out; display:none; opacity: 0;}
+        #table1, #table2, #table3, #table4 {transition: opacity 0.25s ease-in-out; display:none; opacity: 0;}
         #buttons {
             display:flex;
             justify-content: center;
@@ -141,7 +140,14 @@
         /* CSS for tablet */
         }
         @media (max-width: 767px) {
-        /* CSS for mobile */
+            .wave {
+                width:1440px;
+            }
+            @keyframes wave {
+                0% {transform: translateX(0);}
+                50% {transform: translateX(-360px);}
+                100% {transform: translateX(-720px);}
+            }
         }
 
     </style>
@@ -154,8 +160,9 @@
 </div>
 <div id="buttons">
     <input type="button" class="button" data-table="table3" name="Button3" value="CPU" onclick="showTable('table3', this)" />
-    <input type="button" class="button" data-table="table2" name="Button2" value="System" onclick="showTable('table2', this)" />
     <input type="button" class="button" data-table="table1" name="Button1" value="GPU" onclick="showTable('table1', this)" />
+    <input type="button" class="button" data-table="table2" name="Button2" value="Desktop" onclick="showTable('table2', this)" />
+    <input type="button" class="button" data-table="table4" name="Button4" value="Laptop" onclick="showTable('table4', this)" />
 </div>
 
 
@@ -238,12 +245,37 @@ echo "</table></div>";
 ?>
 
 
+<div id="table4" class="table-container table4">
+<table><tr><th>Title</th><th>Card</th><th>Benchy/Price</th><th>link</th></tr>
+<?php
+$systemsXml = simplexml_load_file('laptops.xml'); // Load XML from a file
+foreach ($systemsXml->gpu as $gpu) { // Loop through each 'gpu' element in the XML
+    $title = htmlspecialchars_decode((string) $gpu->title);
+    $BPeu = htmlspecialchars_decode((string) $gpu->BPeu);
+    $price = htmlspecialchars_decode((string) $gpu->price);
+    $link = htmlspecialchars_decode((string) $gpu->link);
+    $benchmark = htmlspecialchars_decode((string) $gpu->benchmark);
+    $cpuModel = htmlspecialchars_decode((string) $gpu->cpuModel);
+    $description = htmlspecialchars_decode((string) $gpu->description);
+
+echo "
+<tr>
+    <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
+    <td style=\"text-align: center;\">{$BPeu}                                                           </td>
+    <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
+    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+</tr>";
+}
+echo "</table></div>";
+?>
+
+
 </body>
 </html>
 
 <script>
     function showTable(showID) {
-        ['table1', 'table2', 'table3'].forEach(id => {
+        ['table1', 'table2', 'table3', 'table4'].forEach(id => {
             const el = document.getElementById(id);
             const btn = document.querySelector(`input[data-table="${id}"]`);  // Get the button element
             if (id === showID) {

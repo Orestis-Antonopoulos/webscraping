@@ -23,7 +23,7 @@ $descriptions = [];
 $cpuModels = [];
 $query = "ryzen%20i3%20i5%20i7%20i9";
 do {
-    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=9&sortby=relevancy');
+    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=127,27,56,24,161,160,69,70,25,26,28&sortby=relevancy');
 
     foreach ($html->find('.ipsStreamItem_title') as $element) {
         $titles[] = $element->plaintext;
@@ -185,4 +185,4 @@ foreach ($collectedData as $data) {
 
 
 // Save the XML to a file
-$xml->asXML('cpu.xml');
+$xml->asXML('laptops.xml');

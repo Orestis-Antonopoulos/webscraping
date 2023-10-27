@@ -89,7 +89,7 @@ $descriptions = [];
 $cpuModels = [];
 $query = "ryzen";
 do {
-    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=8&sortby=relevancy');
+    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=127,27,56,24,161,160,69,70,25,26,28&sortby=relevancy');
 
     foreach ($html->find('.ipsStreamItem_title') as $element) {
         $titles[] = $element->plaintext;
