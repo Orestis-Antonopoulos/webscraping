@@ -21,6 +21,7 @@ $types = [];
 $benchmarks = [];
 $descriptions = [];
 $cpuModels = [];
+$images = [];
 $query = "ryzen%20i3%20i5%20i7%20i9";
 do {
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=9&sortby=relevancy');
@@ -42,7 +43,17 @@ do {
     }
     foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {
         $descriptions[] = $element->plaintext;
+    } 
+    foreach ($html->find('.ipsStreamItem_container') as $element) {
+        $image = $element->find('.ipsImage.ipsStream_image', 0);
+        
+        if ($image) {
+            $images[] = $image->{'data-src'};
+        } else {
+            $images[] = "public/images/cpu.svg";
+        }
     }
+    
     
 
     // Check for Next Page:
@@ -155,7 +166,8 @@ foreach ($titles as $title) {
             'link' => $links[$key],
             'description' => $descriptions[$key],
             'benchmark' => $benchmarks[$key],
-            'cpuModel' => $cpuModels[$key]
+            'cpuModel' => $cpuModels[$key],
+            'image' => $images[$key]
         ];
     }
 
@@ -180,6 +192,7 @@ foreach ($collectedData as $data) {
     $gpu->addChild('link', htmlspecialchars($data['link']));
     $gpu->addChild('benchmark', htmlspecialchars($data['benchmark']));
     $gpu->addChild('description', htmlspecialchars($data['description']));
+    $gpu->addChild('image', htmlspecialchars($data['image']));
 
 }
 

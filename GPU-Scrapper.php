@@ -21,6 +21,7 @@ $types = [];
 $benchmarks = [];
 $descriptions = [];
 $cpuModels = [];
+$images = [];
 $query = "1050%201060%201070%201080%201650%201660%202050%202060%202070%202080%203050%203060%203070%203080%203090%204060%204070%204080%204090";
 do {
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=11&sortby=relevancy');
@@ -30,6 +31,15 @@ do {
     foreach ($html->find('.ipsStream_snippetInfo p .ipsStream_price') as $element) {$prices[] = $element->plaintext;}
     foreach ($html->find('ul.ipsList_inline li .ipsBadge') as $element) {$types[] = $element->plaintext;}
     foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {$descriptions[] = $element->plaintext;}
+    foreach ($html->find('.ipsStreamItem_container') as $element) {
+        $image = $element->find('.ipsImage.ipsStream_image', 0);
+        
+        if ($image) {
+            $images[] = $image->{'data-src'};
+        } else {
+            $images[] = "public/images/gpu.svg";
+        }
+    }
 
     // Check for Next Page:
     $nextPageUrl = $html->find('.ipsPagination .ipsPagination_next a', 0);
@@ -79,7 +89,8 @@ foreach ($titles as $title) {
             'link' => $links[$key],
             'description' => $descriptions[$key],
             'benchmark' => $benchmarks[$key],
-            'cpuModel' => $cpuModels[$key]
+            'cpuModel' => $cpuModels[$key],
+            'image' => $images[$key],
         ];
     }
 
@@ -100,6 +111,7 @@ foreach ($collectedData as $data) { // Loop through the data and add it to the X
     $gpu->addChild('link', htmlspecialchars($data['link']));
     $gpu->addChild('benchmark', htmlspecialchars($data['benchmark']));
     $gpu->addChild('description', htmlspecialchars($data['description']));   
+    $gpu->addChild('image', htmlspecialchars($data['image']));
 }
 $xml->asXML('gpu.xml'); // Save the XML to a file
 ?>

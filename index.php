@@ -11,9 +11,9 @@
         padding-top:60px;
         animation:backgroundAnimation 20s infinite;}
     @keyframes backgroundAnimation {
-        0% {background-color: rgb(183, 197, 201);}
-        50% {background-color: rgb(209, 217, 255);}
-        100% {background-color: rgb(183, 197, 201);}}
+        0% {background-color: rgb(11, 44, 74);}
+        50% {background-color: rgb(42, 24, 76);}
+        100% {background-color: rgb(11, 44, 74);}}
     /* waves animation start */
         .ocean {
         height: 80px; /* change the height of the waves here */
@@ -106,7 +106,7 @@
         .tooltip:hover .tooltiptext {visibility: visible;}
         .tooltip2:hover .tooltiptext2 {visibility: visible;}
 
-        #table1, #table2, #table3, #table4 {transition: opacity 0.25s ease-in-out; display:none; opacity: 0;}
+        #table1, #table2, #table3, #table4 {transition: opacity 0.15s linear; display:none; opacity: 0;}
         #buttons {
             display:flex;
             justify-content: center;
@@ -117,18 +117,31 @@
             top:10px;
         }
         .button {
-            width:80px;
-            height:25px;
+            width:40px;
+            height:40px;
             /* clip-path: polygon(10px 0%, 100% 0, 100% 15px, 70px 25px, 0 100%, 0 10px); */
             border:none;
             border-radius:5px;
             background-color:rgb(100% 100% 100% / 0.2);
             box-shadow: 0px 2px 5px 0 rgb(0 0 0 / 0.2);
+            padding:0;
+            background:white;
 
         }
-        .active {
-            box-shadow: none;
-            animation:active-animation 10s infinite;
+        .overbutton {
+            display: none;  /* Initially hide the overbutton */
+            position: absolute;
+            background: black;
+            opacity: 0.1;  /* 10% opacity */
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+        }
+        .button.active .overbutton {
+            display: block;  /* Show the overbutton when parent button is active */
+            transition: opacity 0.15s linear;
         }
         @keyframes active-animation {
         0% {background-color: rgb(93% 93% 93% / 0.7);}
@@ -141,7 +154,7 @@
         }
         @media (max-width: 767px) {
             .wave {
-                width:1440px;
+                width:1442px;
             }
             @keyframes wave {
                 0% {transform: translateX(0);}
@@ -159,10 +172,22 @@
   <div class="wave"></div>
 </div>
 <div id="buttons">
-    <input type="button" class="button" data-table="table3" name="Button3" value="CPU" onclick="showTable('table3', this)" />
-    <input type="button" class="button" data-table="table1" name="Button1" value="GPU" onclick="showTable('table1', this)" />
-    <input type="button" class="button" data-table="table2" name="Button2" value="Desktop" onclick="showTable('table2', this)" />
-    <input type="button" class="button" data-table="table4" name="Button4" value="Laptop" onclick="showTable('table4', this)" />
+    <button class="button" data-table="table3" name="Button3" onclick="showTable('table3', this)" style="position:relative;">
+    <img src="public/images/cpu64x64.png" alt="CPU" style="width:32px; height:32px;">
+    <div class="overbutton" style="position:absolute; background:black; opacity:10%; top:0; left:0; width:40px; height:40px; border-radius:5px;"></div>
+    </button>
+    <button class="button" data-table="table1" name="Button1" onclick="showTable('table1', this)" style="position:relative;">
+    <img src="public/images/gpu64x64.png" alt="GPU" style="width:32px; height:32px;">
+    <div class="overbutton" style="position:absolute; background:black; opacity:10%; top:0; left:0; width:40px; height:40px; border-radius:5px;"></div>
+    </button>
+    <button class="button" data-table="table2" name="Button2" onclick="showTable('table2', this)" style="position:relative;">
+    <img src="public/images/desktop64x64.png" alt="Desktop" style="width:32px; height:32px;">
+    <div class="overbutton" style="position:absolute; background:black; opacity:10%; top:0; left:0; width:40px; height:40px; border-radius:5px;"></div>
+    </button>
+    <button class="button" data-table="table4" name="Button4" onclick="showTable('table4', this)" style="position:relative;">
+    <img src="public/images/laptop64x64.png" alt="CPU" style="width:32px; height:32px;">
+    <div class="overbutton" style="position:absolute; background:black; opacity:10%; top:0; left:0; width:40px; height:40px; border-radius:5px;"></div>
+    </button>
 </div>
 
 
@@ -180,13 +205,18 @@ foreach ($GPUxml->gpu as $gpu) { // Loop through each 'gpu' element in the XML
     $benchmark = htmlspecialchars_decode((string) $gpu->benchmark);
     $cpuModel = htmlspecialchars_decode((string) $gpu->cpuModel);
     $description = htmlspecialchars_decode((string) $gpu->description);
+    $image = htmlspecialchars_decode((string) $gpu->image);
 
 echo "
 <tr>
     <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
     <td style=\"text-align: center;\">{$BPeu}                                                           </td>
     <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
-    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+    <td>
+        <a href=\"{$link}\" target=\"_blank\">
+            <img src=\"$image\"style=\"width:150px;height:150px;object-fit:cover; border-radius:5px;\"loading=\"lazy\">
+        </a>
+    </td>
 </tr>";
 }
 echo "</table></div>";
@@ -232,13 +262,18 @@ foreach ($systemsXml->gpu as $gpu) { // Loop through each 'gpu' element in the X
     $benchmark = htmlspecialchars_decode((string) $gpu->benchmark);
     $cpuModel = htmlspecialchars_decode((string) $gpu->cpuModel);
     $description = htmlspecialchars_decode((string) $gpu->description);
+    $image = htmlspecialchars_decode((string) $gpu->image);
 
 echo "
 <tr>
     <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
     <td style=\"text-align: center;\">{$BPeu}                                                           </td>
     <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
-    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+    <td>
+        <a href=\"{$link}\" target=\"_blank\">
+            <img src=\"$image\"style=\"width:150px;height:150px;object-fit:cover; border-radius:5px;\"loading=\"lazy\">
+        </a>
+    </td>
 </tr>";
 }
 echo "</table></div>";
@@ -263,7 +298,7 @@ echo "
     <td class=\"tooltip\">{$title}    <span class=\"tooltiptext\">{$description}</span>                 </td>
     <td style=\"text-align: center;\">{$BPeu}                                                           </td>
     <td class=\"tooltip2\">{$benchmark}<br>/{$price}    <span class=\"tooltiptext2\">{$cpuModel}</span> </td>
-    <td>    <a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                    </td>
+    <td><a href=\"{$link}\" target=\"_blank\">    <button>Visit</button>    </a>                        </td>
 </tr>";
 }
 echo "</table></div>";
@@ -277,16 +312,19 @@ echo "</table></div>";
     function showTable(showID) {
         ['table1', 'table2', 'table3', 'table4'].forEach(id => {
             const el = document.getElementById(id);
-            const btn = document.querySelector(`input[data-table="${id}"]`);  // Get the button element
+            const btn = document.querySelector(`button[data-table="${id}"]`);  // Get the button element
             if (id === showID) {
-                el.style.display = 'block';
-                // Force a reflow to let the browser know that the 'display' has changed
-                void el.offsetWidth; 
-                el.style.opacity = 1;
                 btn.classList.add('active');
+                setTimeout(() => {
+                    el.style.display = 'block';
+                    // Force a reflow to let the browser know that the 'display' has changed
+                    void el.offsetWidth; 
+                    el.style.opacity = 1;
+                    
+                }, 150);
             } else {
                 el.style.opacity = 0;
-                setTimeout(() => el.style.display = 'none', 250);
+                setTimeout(() => el.style.display = 'none', 150);
                 btn.classList.remove('active');
             }
         });
