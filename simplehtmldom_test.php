@@ -31,18 +31,18 @@ $httpClient = new \simplehtmldom\HtmlWeb();
 // $IntelScores = ["1050ti" => 6302, ];
 $scores = ["1200" => 6322, ];
 
-$images = [];
+$dates = [];
 $query = "ryzen%201200";
 
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=1&nodes=9&sortby=relevancy');
 
     foreach ($html->find('.ipsStreamItem_container') as $element) {
-        $image = $element->find('.ipsImage.ipsStream_image', 0);
+        $date = $element->find('time', 0);
         
-        if ($image) {
-            $images[] = $image->{'data-src'};
+        if ($date) {
+            $dates[] = $date->{'datetime'};
         } else {
-            $images[] = null;  // or some placeholder
+            $dates[] = null;  // or some placeholder
         }
     }
 
@@ -50,9 +50,9 @@ echo "<table><tr> <th>Title</th></tr>"; //initialize table
 
 $key = 0;
 
-foreach ($images as $image)
+foreach ($dates as $date)
             echo "
-            <tr><td><img src=\"$image\" style=\"width:150px;height:150px;object-fit:cover; border-radius:5px;\"></td></tr>" . PHP_EOL;
+            <tr><td><span>$date</span></td></tr>" . PHP_EOL;
 
 $key++;
   

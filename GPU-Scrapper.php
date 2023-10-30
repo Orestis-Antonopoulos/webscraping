@@ -26,20 +26,13 @@ $query = "1050%201060%201070%201080%201650%201660%202050%202060%202070%202080%20
 do {
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=11&sortby=relevancy');
 
-    foreach ($html->find('.ipsStreamItem_title') as $element) {$titles[] = $element->plaintext;}
-    foreach ($html->find('h2 span a') as $element) {$links[] = $element->href;}
-    foreach ($html->find('.ipsStream_snippetInfo p .ipsStream_price') as $element) {$prices[] = $element->plaintext;}
-    foreach ($html->find('ul.ipsList_inline li .ipsBadge') as $element) {$types[] = $element->plaintext;}
+    foreach ($html->find('.ipsStreamItem_title') as $element)                       {$titles[] = $element->plaintext;}
+    foreach ($html->find('h2 span a') as $element)                                  {$links[] = $element->href;}
+    foreach ($html->find('.ipsStream_snippetInfo p .ipsStream_price') as $element)  {$prices[] = $element->plaintext;}
+    foreach ($html->find('ul.ipsList_inline li .ipsBadge') as $element)             {$types[] = $element->plaintext;}
     foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {$descriptions[] = $element->plaintext;}
-    foreach ($html->find('.ipsStreamItem_container') as $element) {
-        $image = $element->find('.ipsImage.ipsStream_image', 0);
-        
-        if ($image) {
-            $images[] = $image->{'data-src'};
-        } else {
-            $images[] = "public/images/gpu.svg";
-        }
-    }
+    foreach ($html->find('.ipsStreamItem_container') as $element)                   {$image = $element->find('.ipsImage.ipsStream_image', 0);
+        if ($image) {$images[] = $image->{'data-src'};} else                        {$images[] = "public/images/cpu.svg";}}
 
     // Check for Next Page:
     $nextPageUrl = $html->find('.ipsPagination .ipsPagination_next a', 0);
