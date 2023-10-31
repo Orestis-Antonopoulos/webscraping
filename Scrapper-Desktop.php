@@ -22,18 +22,20 @@ $benchmarks = [];
 $descriptions = [];
 $cpuModels = [];
 $images = [];
+$dates = [];
 $query = "ryzen%20i3%20i5%20i7%20i9";
 do {
-    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=9&sortby=relevancy');
+    $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=8&sortby=relevancy');
 
     foreach ($html->find('.ipsStreamItem_title') as $element)                       {$titles[] = $element->plaintext;}
     foreach ($html->find('h2 span a') as $element)                                  {$links[] = $element->href;}
     foreach ($html->find('.ipsStream_snippetInfo p .ipsStream_price') as $element)  {$prices[] = $element->plaintext;}
     foreach ($html->find('ul.ipsList_inline li .ipsBadge') as $element)             {$types[] = $element->plaintext;}
-    foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {$descriptions[] = $element->plaintext;} 
+    foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {$descriptions[] = $element->plaintext;}
     foreach ($html->find('.ipsStreamItem_container') as $element)                   {$image = $element->find('.ipsImage.ipsStream_image', 0);
         if ($image) {$images[] = $image->{'data-src'};} else                        {$images[] = "public/images/cpu.svg";}}
-    
+    foreach ($html->find('.ipsStreamItem_container') as $element) {$date = $element->find('time', 0);
+        if ($date) {$dates[] = $date->{'datetime'};} else                           {$dates[] = null;}}
     
 
     // Check for Next Page:
@@ -147,7 +149,8 @@ foreach ($titles as $title) {
             'description' => $descriptions[$key],
             'benchmark' => $benchmarks[$key],
             'cpuModel' => $cpuModels[$key],
-            'image' => $images[$key]
+            'image' => $images[$key],
+            'date' => $dates[$key]
         ];
     }
 
@@ -173,9 +176,9 @@ foreach ($collectedData as $data) {
     $gpu->addChild('benchmark', htmlspecialchars($data['benchmark']));
     $gpu->addChild('description', htmlspecialchars($data['description']));
     $gpu->addChild('image', htmlspecialchars($data['image']));
-
+    $gpu->addChild('date', htmlspecialchars($data['date']));
 }
 
 
 // Save the XML to a file
-$xml->asXML('cpu.xml');
+$xml->asXML('public/xmls/systems.xml');

@@ -36,6 +36,8 @@ $query = "ryzen%201200";
 
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=1&nodes=9&sortby=relevancy');
 
+    // foreach ($html->find('.ipsStreamItem_container time') as $element) {$date = $element->datetime;}
+        
     foreach ($html->find('.ipsStreamItem_container') as $element) {
         $date = $element->find('time', 0);
         

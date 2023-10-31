@@ -7,9 +7,20 @@
     $cpuModel       = htmlspecialchars_decode((string) $gpu->cpuModel);
     $description    = htmlspecialchars_decode((string) $gpu->description);
     $image          = htmlspecialchars_decode((string) $gpu->image);
+    $date           = new DateTime(htmlspecialchars_decode((string) $gpu->date));
+    $dateNow = new DateTime();
+    $interval = $date->diff($dateNow);
+    $days = (int) $interval->format('%a');
+
+    $class = '';
+    if      ($days <= 1) {$class = 'within-24h';} 
+    elseif  ($days <= 3) {$class = 'within-3d';} 
+    elseif  ($days <= 7) {$class = 'within-7d';} 
+    elseif  ($days <= 30){$class = 'within-30d';}
 
 echo "
-    <div style=\"display:flex; flex-direction:column; align-items: center; width:220px; height:350px; border-radius:3px; padding-top:10px; margin:0 auto;\">
+    <div class=\"$class\" style=\"display:flex; flex-direction:column; align-items: center; width:220px; height:350px; border-radius:3px; padding-top:10px; margin:0 auto;\"
+    data-date=\"" . $date->format('Y-m-d H:i:s') . "\">
         <a href=\"{$link}\" target=\"_blank\" style=\"height:200px;\">
             <img src=\"$image\"style=\"opacity:66%;width:200px;height:200px;object-fit:cover; border-radius:3px;\"loading=\"lazy\">
         </a>
@@ -20,10 +31,10 @@ echo "
         <div class=\"date-container\">
             <div style=\"display:flex; flex-direction:row; align-items:center; width:100px;\">
                 <img class=\"svg-icon\" src=\"public/images/calendar.svg\">
-                <span> 10-Sep </span>
+                <span>" . $date->format('d-M') . "</span>
             </div>
             <div style=\"display:flex; flex-direction:row; align-items:center; width:100px;justify-content:end;\">
-                <span> 15:40 </span>
+                <span>" . $date->format('H:i') . "</span>
                 <img class=\"svg-icon\" src=\"public/images/time.svg\">
             </div>
         </div>

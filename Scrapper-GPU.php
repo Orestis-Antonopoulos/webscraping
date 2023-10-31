@@ -22,6 +22,7 @@ $benchmarks = [];
 $descriptions = [];
 $cpuModels = [];
 $images = [];
+$dates = [];
 $query = "1050%201060%201070%201080%201650%201660%202050%202060%202070%202080%203050%203060%203070%203080%203090%204060%204070%204080%204090";
 do {
     $html = $httpClient->load('https://www.insomnia.gr/classifieds/search/?&q=' . $query . '&type=classifieds_advert&page=' . $currentPage . '&nodes=11&sortby=relevancy');
@@ -33,6 +34,8 @@ do {
     foreach ($html->find('.ipsSpacer_top.ipsSpacer_half.ipsType_richText.ipsType_break.ipsType_medium') as $element) {$descriptions[] = $element->plaintext;}
     foreach ($html->find('.ipsStreamItem_container') as $element)                   {$image = $element->find('.ipsImage.ipsStream_image', 0);
         if ($image) {$images[] = $image->{'data-src'};} else                        {$images[] = "public/images/cpu.svg";}}
+    foreach ($html->find('.ipsStreamItem_container') as $element) {$date = $element->find('time', 0);
+        if ($date) {$dates[] = $date->{'datetime'};} else                           {$dates[] = null;}}
 
     // Check for Next Page:
     $nextPageUrl = $html->find('.ipsPagination .ipsPagination_next a', 0);
@@ -84,6 +87,7 @@ foreach ($titles as $title) {
             'benchmark' => $benchmarks[$key],
             'cpuModel' => $cpuModels[$key],
             'image' => $images[$key],
+            'date' => $dates[$key]
         ];
     }
 
@@ -105,6 +109,7 @@ foreach ($collectedData as $data) { // Loop through the data and add it to the X
     $gpu->addChild('benchmark', htmlspecialchars($data['benchmark']));
     $gpu->addChild('description', htmlspecialchars($data['description']));   
     $gpu->addChild('image', htmlspecialchars($data['image']));
+    $gpu->addChild('date', htmlspecialchars($data['date']));
 }
-$xml->asXML('gpu.xml'); // Save the XML to a file
+$xml->asXML('public/xmls/gpu.xml'); // Save the XML to a file
 ?>

@@ -22,24 +22,29 @@
     </a>
 </div>
 
-<div id="table1" class="grid-container">
-<?php $whichxml = 'gpu.xml';
-include 'views/partials/table.php';?>
-</div>
+<div id="page-container">
+    <div id="sidebar" style="height: 100%;background-color: rgb(255,255,255,0.35);width: 200px;position: absolute;border-radius: 5px;">
+    <input type="radio" id="html" name="fav_language" value="HTML">
+    </div>
+    <div id="table1" class="grid-container">
+    <?php $whichxml = 'public/xmls/gpu.xml';
+    include 'views/partials/table.php';?>
+    </div>
 
-<div id="table2" class="grid-container">
-<?php $whichxml = 'systems.xml';
-include 'views/partials/table.php';?>
-</div>
+    <div id="table2" class="grid-container">
+    <?php $whichxml = 'public/xmls/systems.xml';
+    include 'views/partials/table.php';?>
+    </div>
 
-<div id="table3" class="grid-container">
-<?php $whichxml = 'cpu.xml';
-include 'views/partials/table.php';?>
-</div>
+    <div id="table3" class="grid-container">
+    <?php $whichxml = 'public/xmls/cpu.xml';
+    include 'views/partials/table.php';?>
+    </div>
 
-<div id="table4" class="grid-container">
-<?php $whichxml = 'laptops.xml';
-include 'views/partials/table.php';?>
+    <div id="table4" class="grid-container">
+    <?php $whichxml = 'public/xmls/laptops.xml';
+    include 'views/partials/table.php';?>
+    </div>
 </div>
 
 <?php include 'views/partials/footer.php'; ?>
