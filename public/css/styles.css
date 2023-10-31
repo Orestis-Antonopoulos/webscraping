@@ -2,6 +2,7 @@ body {font-family: 'Roboto', sans-serif;
     color:#999;
     background-color: rgb(220, 227, 255);
     padding-top:60px;
+    margin:0;
     animation:backgroundAnimation 20s infinite;}
     @keyframes backgroundAnimation {
     0% {background-color: rgb(11, 44, 74);}
@@ -100,6 +101,9 @@ body {font-family: 'Roboto', sans-serif;
         display:grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap:20px;
+        max-width:900px;
+        padding:20px;
+        margin:0 auto;
     }
     .title {
         font-size:11px;font-weight:bold;text-align:center;display: -webkit-box;
@@ -117,6 +121,7 @@ body {font-family: 'Roboto', sans-serif;
     }
     .svg-icon {
         width:16px;
+        height:16px;
         padding:0 5px;
     }
     .title-container {

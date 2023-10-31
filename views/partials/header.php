@@ -12,3 +12,19 @@
   <div class="wave"></div>
   <div class="wave"></div>
 </div>
+
+<?php
+function truncateText($text) {
+    if (strlen($text) > 52) {
+    return substr($text, 0, 52 - 3) . '...';
+    }
+    return $text;
+    }
+    
+function cleanprice ($thisPrice) {
+    str_replace(",", ".", $thisPrice);
+    $thisPrice = str_replace("€", "", $thisPrice);
+    $thisPrice = floatval(trim($thisPrice));
+    return $thisPrice;
+    } 
+?>
