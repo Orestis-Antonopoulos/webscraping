@@ -7,21 +7,24 @@
 } ?>
 <div id="buttons">
     <button class="button" data-table="table3" name="Button3" onclick="showTable('table3', this)" style="position:relative;">
-    <img src="public/images/cpu64x64.png" alt="CPU" style="width:32px; height:32px;">
-    <div class="overbutton"></div>
+        <img src="public/images/cpu64x64.png" alt="CPU" style="width:32px; height:32px;">
+        <div class="overbutton"></div>
     </button>
     <button class="button" data-table="table1" name="Button1" onclick="showTable('table1', this)" style="position:relative;">
-    <img src="public/images/gpu64x64.png" alt="GPU" style="width:32px; height:32px;">
-    <div class="overbutton"></div>
+        <img src="public/images/gpu64x64.png" alt="GPU" style="width:32px; height:32px;">
+        <div class="overbutton"></div>
     </button>
     <button class="button" data-table="table2" name="Button2" onclick="showTable('table2', this)" style="position:relative;">
-    <img src="public/images/desktop64x64.png" alt="Desktop" style="width:32px; height:32px;">
-    <div class="overbutton"></div>
+        <img src="public/images/desktop64x64.png" alt="Desktop" style="width:32px; height:32px;">
+        <div class="overbutton"></div>
     </button>
     <button class="button" data-table="table4" name="Button4" onclick="showTable('table4', this)" style="position:relative;">
-    <img src="public/images/laptop64x64.png" alt="CPU" style="width:32px; height:32px;">
-    <div class="overbutton"></div>
+        <img src="public/images/laptop64x64.png" alt="CPU" style="width:32px; height:32px;">
+        <div class="overbutton"></div>
     </button>
+    <a href="phpinfo.php" target="_blank" style="">
+        <img src="public/images/questionmark.svg" alt="About" style="width:16px; height:16px; margin-left:16px;">
+    </a>
 </div>
 
 <div id="table1" class="grid-container">
